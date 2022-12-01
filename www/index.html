@@ -51,10 +51,10 @@
     }
 
     function sortData() {
-      UTdata.other(key,true).fetchAll()
+      UTdata.order(key,true).fetchAll()
         .then(function(results) {
-          let msg = "";
-          for (let i = 0; i < results.length; i++) {
+            let msg = "";
+            for (let i = 0; i < results.length; i++) {
             msg += results[i].get(key) + "<br>";
           }
           $("#display").removeClass();
@@ -74,18 +74,14 @@
     }
 
     function deleteData() {
-        UTdata.Fetch()
+        UTdata.fetch()
         .then(function(results) {
             return results.delete();
         })
-          let msg = "";
-          for (let i = 0; i < results.length; i++) {
-            msg += results[i].get(key) + "<br>";
-          }
+        .then(function(results){
           $("#display").removeClass();
-          $("#display").addClass("text-light");
-          $("#display").addClass("bg-primary");
-          $("#display").html(msg);
+          $("#display").addClass("bg-success");
+          $("#display").html("delete success");
         })
         .catch(function(error) {
           $("#display").removeClass();
@@ -95,7 +91,22 @@
     }
 
     function updateData() {
-      $("#display").html("update does not work");
+      UTdata.fetch()
+        .then(function(results) {
+          let value = parseInt($("#update").val());
+          results.set(key,value);
+          return results.update();
+        })
+        .then(function(results){
+          $("#display").removeClass();
+          $("#display").addClass("bg-success");
+          $("#display").addClass("update success");
+        })
+        .catch(function(error) {
+          $("#display").removeClass();
+          $("#display").addClass("bg-warning");
+          $("#display").html("delete fail:" + JSON.stringify(error));
+        })
     }
   </script>
 </head>
@@ -107,10 +118,10 @@
     <a onclick="enterData()" class="btn btn-outline-secondary" role="button">Enter</a>
   </div>
   <div>
-    <a onclick="fetchAll()" class="btn btn-outline-secondary" role="buton">Fetch All</a>
+    <a onclick="fetchAll()" class="btn btn-outline-secondary" role="button">Fetch All</a>
     <a onclick="sortData()" class="btn btn-outline-primary" role="button">Sort</a>
     <a onclick="countData()" class="btn btn-outline-primary" role="button">Count</a>
-    <a onclick="deleteData()" class="btn btn-outline-primary" role="buton">Delete</a>
+    <a onclick="deleteData()" class="btn btn-outline-primary" role="button">Delete</a>
     <a onclick="sortData()" class="btn btn-outline-primary"role="button">Sort</a>
   </div>
   <div>
