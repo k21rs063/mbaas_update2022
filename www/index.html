@@ -51,7 +51,22 @@
     }
 
     function sortData() {
-      $("#display").html("sort does not work");
+      UTdata.other(key,true).fetchAll()
+        .then(function(results) {
+          let msg = "";
+          for (let i = 0; i < results.length; i++) {
+            msg += results[i].get(key) + "<br>";
+          }
+          $("#display").removeClass();
+          $("#display").addClass("text-light");
+          $("#display").addClass("bg-primary");
+          $("#display").html(msg);
+        })
+        .catch(function(error) {
+          $("#display").removeClass();
+          $("#display").addClass("bg-warning");
+          $("#display").html("delete fail:" + JSON.stringify(error));
+        })
     }
 
     function countData() {
@@ -59,7 +74,24 @@
     }
 
     function deleteData() {
-      $("#display").html("delete does not work");
+        UTdata.Fetch()
+        .then(function(results) {
+            return results.delete();
+        })
+          let msg = "";
+          for (let i = 0; i < results.length; i++) {
+            msg += results[i].get(key) + "<br>";
+          }
+          $("#display").removeClass();
+          $("#display").addClass("text-light");
+          $("#display").addClass("bg-primary");
+          $("#display").html(msg);
+        })
+        .catch(function(error) {
+          $("#display").removeClass();
+          $("#display").addClass("bg-warning");
+          $("#display").html("delete fail:" + JSON.stringify(error));
+        })
     }
 
     function updateData() {
@@ -79,6 +111,7 @@
     <a onclick="sortData()" class="btn btn-outline-primary" role="button">Sort</a>
     <a onclick="countData()" class="btn btn-outline-primary" role="button">Count</a>
     <a onclick="deleteData()" class="btn btn-outline-primary" role="buton">Delete</a>
+    <a onclick="sortData()" class="btn btn-outline-primary"role="button">Sort</a>
   </div>
   <div>
     <input type="text" id="update" placeholder="更新">
